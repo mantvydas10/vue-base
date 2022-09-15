@@ -1,5 +1,23 @@
 <template>
-  <div>{{ post.title }}</div>
+  <div class="modal is-active">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title"></p>
+      </header>
+      <section class="modal-card-body">
+        <h1 class="top">Title:</h1>
+        <input :value="post.title" />
+        <h1 class="top">Author:</h1>
+        <input :value="post.author" />
+        <h1 class="top">Content:</h1>
+        <textarea :value="post.body" class="dot" rows="20" cols="50" />
+      </section>
+      <footer class="modal-card-foot"></footer>
+    </div>
+  </div>
+
+  <!-- <div>{{ post.title }}</div> -->
 </template>
 
 <script>

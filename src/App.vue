@@ -20,6 +20,5 @@ export default {
   padding-top: 60px;
   height: 1200px;
   background: linear-gradient(#4ca1af, #c4e0e5);
-  /* background: linear-gradient(#3a1c71, #d76d77, #ffaf7b); */
 }
 </style>
