@@ -8,19 +8,26 @@
         </header>
         <section class="">
           <h1 class="top">Title:</h1>
-          <input :value="post.title" />
+          <input :value="posts.title" />
           <h1 class="top">Author:</h1>
-          <input :value="post.author" />
+          <input :value="posts.author" />
           <h1 class="top">Content:</h1>
-          <textarea :value="post.body" class="dot" rows="20" cols="50" />
-          <p v-text="formatDate(post.created_at)"></p>
-          <button>Edit Post</button>
-          <button>Delete Post</button>
+          <textarea :value="posts.body" class="dot" rows="20" cols="50" />
+          <p v-text="formatDate(posts.created_at)"></p>
+          <button @click="toggleEditModal()">Edit Post</button>
+          <button @click="deleteArticle(posts.id)">Delete Post</button>
+          <transition name="bounce">
+            <editModal v-if="editModalStatus" :item="posts"></editModal>
+          </transition>
+          <transition name="bounce">
+            <deleteModal
+              :id="selectedPost"
+              v-show="modalDeleteStatus"
+            ></deleteModal>
+          </transition>
         </section>
-        <!-- <footer class="modal-card-foot"></footer> -->
       </div>
     </div>
-    <!-- <deleteModal></deleteModal> -->
   </div>
 </template>
 
@@ -40,20 +47,51 @@ export default {
   data() {
     return {
       searchQuery: "",
-      post: {}
+      posts: {},
+      modalDeleteStatus: false,
+      selectedPost: null,
+      editModalStatus: false
     };
   },
   methods: {
     formatDate(date) {
       return moment(date).format("MMMM Do YYYY, h:mm:ss a");
+    },
+    deleteArticle(id) {
+      this.selectedPost = id;
+      this.modalDeleteStatus = true;
+    },
+    toggleDeleteModal() {
+      this.modalDeleteStatus = !this.modalDeleteStatus;
+    },
+    toggleEditModal() {
+      this.editModalStatus = !this.editModalStatus;
     }
   },
   created() {
     axios
       .get(`http://localhost:3000/posts/${this.$route.params.id}`)
-      .then(response => (this.post = response.data));
+      .then(response => (this.posts = response.data));
   }
 };
 </script>
 
-<style></style>
+<style>
+.bounce-enter-active {
+  animation: bounce-in 0.5s;
+}
+.bounce-leave-active {
+  animation: bounce-in 0.3s reverse;
+}
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.25);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+</style>

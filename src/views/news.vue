@@ -30,17 +30,21 @@
           <p v-text="formatDate(item.created_at)"></p>
           <p v-text="item.updated_at"></p>
           <button @click="deleteArticle(item.id)">Delete</button>
-          <button @click="toggleEditModal()">Edit Post</button>
+          <button @click="toggleEditModal(item)">Edit Post</button>
           <button @click="openPost(item.id)">Details</button>
         </div>
       </table>
     </div>
     <transition name="bounce">
-      <delete-modal :id="selectedPost" v-if="modalDeleteStatus"></delete-modal>
+      <deleteModal :id="selectedPost" v-if="modalDeleteStatus"></deleteModal>
     </transition>
 
     <transition name="bounce">
-      <editModal v-show="editModalStatus"></editModal>
+      <editModal
+        v-if="editModalStatus"
+        :item="selectedEdit"
+        :key="modalKey"
+      ></editModal>
     </transition>
 
     <transition name="bounce">
@@ -83,11 +87,15 @@ export default {
       last: null,
       next: null,
       prev: null,
-      selectedPost: null
+      selectedPost: null,
+      selectedEdit: null,
+      modalKey: true
     };
   },
   methods: {
-    toggleEditModal() {
+    toggleEditModal(item) {
+      this.modalKey = !this.modalKey;
+      this.selectedEdit = item;
       this.editModalStatus = !this.editModalStatus;
     },
     toggleDeleteModal() {

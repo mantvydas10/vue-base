@@ -36,15 +36,11 @@ export default {
   mixins: [notyToast],
   name: "editModal",
   props: {
-    title: String,
-    body: String,
-    author: String,
-    created_at: Number,
-    id: String
+    item: Object
   },
-  created() {
-    this.postData.title = this.title;
-    this.postData.body = this.body;
+  mounted() {
+    this.postData.title = this.item.title;
+    this.postData.body = this.item.body;
   },
   data() {
     return {

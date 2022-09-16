@@ -50,7 +50,6 @@ export default {
       ) {
         this.submitPost();
       } else {
-        // this.error = "You must complete all fields.";
         this.notyToast("You must complete all fields!", "error");
       }
     },
