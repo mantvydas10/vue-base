@@ -40,6 +40,11 @@ export default {
             this.$parent.getData("http://localhost:3000/posts");
             this.$parent.toggleDeleteModal();
             this.notyToast("Successfully deleted the Post!", "success");
+          } else if (this.$parent.$options.posts == "detail") {
+            this.$parent.getData("http://localhost:3000/posts");
+            this.$parent.toggleDeleteModal();
+            this.$router.push("/");
+            this.notyToast("Successfully deleted the Post!", "success");
           }
         })
         .catch(error => {

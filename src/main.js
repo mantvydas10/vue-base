@@ -16,7 +16,7 @@ new Vue({
 Vue.config.productionTip = false;
 
 Vue.use(VueToast, {
-  duration: 5000,
+  duration: 3000,
   dismissible: true,
   position: "top"
 });
