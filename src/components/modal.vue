@@ -32,7 +32,7 @@
 
 <script>
 import axios from "axios";
-import notyToast from "../mixins/notyToast.js";
+import notyToast from "/home/studentas/Documents/vue-base/src/mixins/notyToast.js";
 
 export default {
   mixins: [notyToast],
