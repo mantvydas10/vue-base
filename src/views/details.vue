@@ -33,7 +33,7 @@
 
 <script>
 import axios from "axios";
-import pagination from "../components/pagination.vue";
+
 import notyToast from "../mixins/notyToast.js";
 import news from "../views/news.vue";
 import deleteModal from "../components/deleteModal.vue";
@@ -43,7 +43,7 @@ import editModal from "../components/editModal.vue";
 export default {
   name: "detail",
   mixins: [notyToast],
-  components: { pagination, news, editModal, deleteModal },
+  components: { news, editModal, deleteModal },
   data() {
     return {
       searchQuery: "",

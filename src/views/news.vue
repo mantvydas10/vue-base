@@ -11,13 +11,7 @@
         class="searchQuery"
         placeholder="Search Post"
       />
-      <button
-        @click="
-          getData(
-            'http://localhost:3000/posts?q=' + searchQuery + '&_page=1&_limit=5'
-          )
-        "
-      >
+      <button @click="getDataBySearch()">
         Find
       </button>
     </div>
@@ -50,10 +44,15 @@
     <transition name="bounce">
       <modal v-show="modalStatus" @data-reload="getData()" ref="modal"></modal>
     </transition>
+    <!-- <pagination></pagination> -->
+    <paginations
+      class="pagi"
+      :totalPages="10"
+      :perPage="5"
+      :currentPage="currentPage"
+      @pagechanged="onPageChange"
+    ></paginations>
 
-    <div class="pagi">
-      <pagination></pagination>
-    </div>
     <button class="button-55" @click="openRemove()">
       Create a Post
     </button>
@@ -65,31 +64,53 @@ import axios from "axios";
 import modal from "@/components/modal.vue";
 import deleteModal from "@/components/deleteModal.vue";
 import moment from "moment";
-import pagination from "@/components/pagination.vue";
+import paginations from "@/components/paginations.vue";
 import parseLinkHeader from "parse-link-header";
 import editModal from "@/components/editModal.vue";
 export default {
   name: "news",
   components: {
     modal,
-    pagination,
+    paginations,
     deleteModal,
     editModal
   },
+
   data() {
     return {
+      currentPage: 1,
+      totalPages: 0,
       name: [],
       modalStatus: false,
       modalDeleteStatus: false,
       editModalStatus: false,
       searchQuery: "",
-      first: null,
-      last: null,
-      next: null,
-      prev: null,
+      // first: null,
+      // last: null,
+      // next: null,
+      // prev: null,
       selectedPost: null,
       selectedEdit: null,
       modalKey: true
+      // props: {
+      //   maxVisibleButtons: {
+      //     type: Number,
+      //     required: false,
+      //     default: 5
+      //   },
+      //   totalPages: {
+      //     type: Number,
+      //     required: true
+      //   },
+      //   perPage: {
+      //     type: Number,
+      //     required: true
+      //   },
+      //   currentPage: {
+      //     type: Number,
+      //     required: true
+      //   }
+      // }
     };
   },
   methods: {
@@ -115,37 +136,50 @@ export default {
     formatDate(date) {
       return moment(date).format("MMMM Do YYYY, h:mm:ss a");
     },
-    getData(URL) {
+
+    getData() {
       axios
-        .get(URL)
-        .then(response => {
-          console.log(response);
-          var pagination = parseLinkHeader(response.headers.link);
-          if (pagination != null) {
-            if (pagination.first) {
-              this.first = pagination.first.url;
-            } else this.first = null;
-            if (pagination.last) {
-              this.last = pagination.last.url;
-            } else this.last = null;
-            if (pagination.next) {
-              this.next = pagination.next.url;
-            } else this.next = null;
-            if (pagination.prev) {
-              this.prev = pagination.prev.url;
-            } else this.prev = null;
-          } else {
-            this.first = null;
-            this.last = null;
-            this.next = null;
-            this.prev = null;
-          }
-          this.name = response.data;
+        .get("http://localhost:3000/posts", {
+          params: { _limit: 5, _page: this.currentPage, q: this.searchQuery }
         })
-        .catch(error => {
-          console.log(error);
-        });
+        .then(response => {
+          this.name = response.data;
+          // this.totalPages = Math.floor(response.headers["x-total-count"] / 5);
+        })
+        .catch(error => console.log(error));
     },
+
+    // getData(URL) {
+    //   axios
+    //     .get(URL)
+    //     .then(response => {
+    //       console.log(response);
+    //       // var pagination = parseLinkHeader(response.headers.link);
+    //       // if (pagination != null) {
+    //       //   if (pagination.first) {
+    //       //     this.first = pagination.first.url;
+    //       //   } else this.first = null;
+    //       //   if (pagination.last) {
+    //       //     this.last = pagination.last.url;
+    //       //   } else this.last = null;
+    //       //   if (pagination.next) {
+    //       //     this.next = pagination.next.url;
+    //       //   } else this.next = null;
+    //       //   if (pagination.prev) {
+    //       //     this.prev = pagination.prev.url;
+    //       //   } else this.prev = null;
+    //       // } else {
+    //       //   this.first = null;
+    //       //   this.last = null;
+    //       //   this.next = null;
+    //       //   this.prev = null;
+    //       // }
+    //       this.name = response.data;
+    //     })
+    //     .catch(error => {
+    //       console.log(error);
+    //     });
+    // },
     getDataBySearch() {
       axios
         .get(
@@ -164,15 +198,24 @@ export default {
     },
     openPost(id) {
       this.$router.push(`/details/${id}`);
+    },
+    onPageChange(page) {
+      console.log(page);
+      this.currentPage = page;
+      this.getData();
     }
   },
   mounted() {
-    this.getData("http://localhost:3000/posts?q=&_page=1&_limit=5");
+    this.getData("http://localhost:3000/posts");
   }
 };
 </script>
 
 <style scoped>
+.pagi {
+  margin-top: 20px;
+  justify-content: center;
+}
 .box {
   border: 1px solid black;
 }
@@ -213,7 +256,6 @@ export default {
 }
 
 .button-55 {
-  margin-top: 20px;
   align-self: center;
   background-color: #fff;
   background-image: none;
@@ -251,11 +293,5 @@ export default {
 
 .button-55:focus {
   box-shadow: rgba(0, 0, 0, 0.3) 2px 8px 4px -6px;
-}
-
-.pagi {
-  display: flex;
-  justify-content: space-around;
-  margin-top: 30px;
 }
 </style>
