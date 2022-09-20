@@ -42,9 +42,13 @@
     </transition>
 
     <transition name="bounce">
-      <modal v-show="modalStatus" @data-reload="getData()" ref="modal"></modal>
+      <modal
+        v-show="modalStatus"
+        @data-reload="getDataBySearch()"
+        ref="modal"
+      ></modal>
     </transition>
-    <!-- <pagination></pagination> -->
+
     <paginations
       class="pagi"
       :totalPages="10"
