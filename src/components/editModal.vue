@@ -62,7 +62,9 @@ export default {
         .put("http://localhost:3000/posts/" + this.postData.id, this.postData)
         .then(response => {
           console.log(response);
-          
+          this.$parent.toggleEditModal();
+          this.$parent.getData();
+          this.notyToast("Successfully edited the P0ST!", "success");
         })
         .catch(error => {
           console.log(error.response);
