@@ -22,7 +22,7 @@
 
 <script>
 import axios from "axios";
-import getMapData from "lodash/_getMapData";
+
 import notyToast from "../mixins/notyToast";
 
 export default {
@@ -39,15 +39,8 @@ export default {
         .then(_ => {
           this.$parent.toggleDeleteModal();
           this.notyToast("Successfully deleted the Post!", "success");
-          this.getData("http://localhost:3000/posts");
+          this.$router.push({ name: "news" });
         })
-        // if (this.$parent.$options.name == "news") {
-        //   this.$parent.getData("http://localhost:3000/posts");
-        //   this.$parent.toggleDeleteModal();
-        //   this.notyToast("Successfully deleted the Post!", "success");
-        // } else if (this.$parent.$options.posts.id == "detail") {
-        // this.$parent.getData("http://localhost:3000/posts");
-        // this.$parent.toggleDeleteModal();
 
         .catch(error => {
           console.log(error);

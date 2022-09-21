@@ -8,11 +8,17 @@
         </header>
         <section class="">
           <h1 class="top">Title:</h1>
-          <input :value="posts.title" />
+          <input :value="posts.title" :disabled="true" />
           <h1 class="top">Author:</h1>
-          <input :value="posts.author" />
+          <input :value="posts.author" :disabled="true" />
           <h1 class="top">Content:</h1>
-          <textarea :value="posts.body" class="dot" rows="20" cols="50" />
+          <textarea
+            :disabled="true"
+            :value="posts.body"
+            class="dot"
+            rows="20"
+            cols="50"
+          />
           <p v-text="formatDate(posts.created_at)"></p>
           <button @click="toggleEditModal()">Edit Post</button>
           <button @click="deleteArticle(posts.id)">Delete Post</button>
@@ -50,7 +56,8 @@ export default {
       posts: {},
       modalDeleteStatus: false,
       selectedPost: null,
-      editModalStatus: false
+      editModalStatus: false,
+      disabled: false
     };
   },
   methods: {

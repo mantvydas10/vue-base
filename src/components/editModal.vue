@@ -31,6 +31,7 @@
 <script>
 import notyToast from "../mixins/notyToast.js";
 import axios from "axios";
+import moment from "moment";
 
 export default {
   mixins: [notyToast],
@@ -41,12 +42,16 @@ export default {
   mounted() {
     this.postData.title = this.item.title;
     this.postData.body = this.item.body;
+    this.postData.id = this.item.id;
+    this.postData.author = this.item.author;
   },
   data() {
     return {
       postData: {
         title: "",
-        body: ""
+        body: "",
+        id: "",
+        author: ""
       }
     };
   },
@@ -55,14 +60,21 @@ export default {
     editPost() {
       axios
         .put("http://localhost:3000/posts" + "/news/" + this.id, {
-          id: this.id,
+          id: this.postData.id,
           title: this.postData.title,
           body: this.postData.body,
-          updated_at: new Date().getTime(),
+          updated_at: this.formatDate(date),
           created_at: this.created_at,
-          author: this.author
+          author: this.postData.author
         })
         .then(r => {});
+    },
+
+    checkPost(){
+      
+    },
+    formatDate(date) {
+      return moment(date).format("MMMM Do YYYY, h:mm:ss a");
     }
   }
 };

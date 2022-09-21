@@ -65,7 +65,7 @@ export default {
         .then(response => {
           console.log(response);
           this.$parent.toggleModal();
-          this.$emit("datareload");
+          this.$emit("data-reload");
           this.notyToast("Successfully added the P0ST!", "success");
         })
         .catch(error => {

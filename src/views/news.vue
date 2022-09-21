@@ -84,33 +84,11 @@ export default {
       modalStatus: false,
       modalDeleteStatus: false,
       editModalStatus: false,
-      searchQuery: "",
-      // first: null,
-      // last: null,
-      // next: null,
-      // prev: null,
+      searchQuery: "",     
       selectedPost: null,
       selectedEdit: null,
       modalKey: true
-      // props: {
-      //   maxVisibleButtons: {
-      //     type: Number,
-      //     required: false,
-      //     default: 5
-      //   },
-      //   totalPages: {
-      //     type: Number,
-      //     required: true
-      //   },
-      //   perPage: {
-      //     type: Number,
-      //     required: true
-      //   },
-      //   currentPage: {
-      //     type: Number,
-      //     required: true
-      //   }
-      // }
+     
     };
   },
   methods: {
@@ -149,37 +127,7 @@ export default {
         .catch(error => console.log(error));
     },
 
-    // getData(URL) {
-    //   axios
-    //     .get(URL)
-    //     .then(response => {
-    //       console.log(response);
-    //       // var pagination = parseLinkHeader(response.headers.link);
-    //       // if (pagination != null) {
-    //       //   if (pagination.first) {
-    //       //     this.first = pagination.first.url;
-    //       //   } else this.first = null;
-    //       //   if (pagination.last) {
-    //       //     this.last = pagination.last.url;
-    //       //   } else this.last = null;
-    //       //   if (pagination.next) {
-    //       //     this.next = pagination.next.url;
-    //       //   } else this.next = null;
-    //       //   if (pagination.prev) {
-    //       //     this.prev = pagination.prev.url;
-    //       //   } else this.prev = null;
-    //       // } else {
-    //       //   this.first = null;
-    //       //   this.last = null;
-    //       //   this.next = null;
-    //       //   this.prev = null;
-    //       // }
-    //       this.name = response.data;
-    //     })
-    //     .catch(error => {
-    //       console.log(error);
-    //     });
-    // },
+    
     getDataBySearch() {
       axios
         .get(
