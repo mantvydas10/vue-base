@@ -8,7 +8,7 @@
         </header>
         <section class="">
           <h1 class="top">Title:</h1>
-          <input :value="posts.title" :disabled="true" />
+          <span>{{ posts.title }}</span>
           <h1 class="top">Author:</h1>
           <input :value="posts.author" :disabled="true" />
           <h1 class="top">Content:</h1>
@@ -39,9 +39,8 @@
 </template>
 
 <script>
-import axios from "axios";
 import notyToast from "../mixins/notyToast.js";
-
+import PostResourceService from "@/services/post/PostResourceService.js";
 import deleteModal from "../components/deleteModal.vue";
 import moment from "moment";
 import editModal from "../components/editModal.vue";
@@ -49,7 +48,7 @@ import editModal from "../components/editModal.vue";
 export default {
   name: "detail",
   mixins: [notyToast],
-  components: { news, editModal, deleteModal },
+  components: { editModal, deleteModal },
   data() {
     return {
       searchQuery: "",
@@ -78,10 +77,12 @@ export default {
       this.$router.push({ name: "news" });
     }
   },
-  created() {
-    axios
-      .get(`http://localhost:3000/posts/${this.$route.params.id}`)
-      .then(response => (this.posts = response.data));
+  async created() {
+    try {
+      this.posts = await PostResourceService.getPost(this.$route.params.id);
+    } catch (error) {
+      console.log(error);
+    }
   }
 };
 </script>

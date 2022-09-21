@@ -6,6 +6,10 @@ import notFoundComponent from "@/views/page404";
 
 Vue.use(Router);
 
+const ROUTE_NAME = {
+  DETAILS: "details"
+};
+
 export default new Router({
   routes: [
     {
@@ -14,9 +18,10 @@ export default new Router({
       component: news
     },
     {
-      path: "/details/:id",
-      name: "details",
-      component: details
+      path: "/" + ROUTE_NAME.DETAILS + "/:id",
+      name: ROUTE_NAME.DETAILS,
+      component: details,
+      props: true
     },
     {
       path: "*",
@@ -24,3 +29,5 @@ export default new Router({
     }
   ]
 });
+
+export { ROUTE_NAME };

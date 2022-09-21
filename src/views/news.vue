@@ -21,7 +21,10 @@
           <p v-text="item.updated_at"></p>
           <button @click="deleteArticle(item.id)">Delete</button>
           <button @click="toggleEditModal(item)">Edit Post</button>
-          <button @click="openPost(item.id)">Details</button>
+
+          <router-link :to="getPostDetailsRouteLink(item.id)">
+            <button>Details</button>
+          </router-link>
         </div>
       </table>
     </div>
@@ -56,12 +59,12 @@
 </template>
 
 <script>
-import axios from "axios";
+import PostResourceService from "@/services/post/PostResourceService.js";
+import { ROUTE_NAME } from "@/router/index.js";
 import modal from "@/components/modal.vue";
 import deleteModal from "@/components/deleteModal.vue";
 import moment from "moment";
 import paginations from "@/components/paginations.vue";
-
 import editModal from "@/components/editModal.vue";
 export default {
   name: "news",
@@ -111,45 +114,34 @@ export default {
       return moment(date).format("MMMM Do YYYY, h:mm:ss a");
     },
 
-    getData() {
-      axios
-        .get("http://localhost:3000/posts", {
-          params: { _limit: 5, _page: this.currentPage, q: this.searchQuery }
-        })
-        .then(response => {
-          this.name = response.data;
-        })
-        .catch(error => console.log(error));
+    async getData() {
+      try {
+        this.name = await PostResourceService.getPosts(
+          this.searchQuery,
+          this.currentPage
+        );
+      } catch (error) {
+        console.log(error);
+      }
     },
 
-    getDataBySearch() {
-      axios
-        .get(
-          "http://localhost:3000/posts?q=" +
-            this.searchQuery +
-            "&_page=1&_limit=5"
-        )
-        .then(response => {
-          console.log(response.data);
-
-          this.name = response.data;
-        })
-        .catch(error => {
-          console.log(error);
-        });
+    async getDataBySearch() {
+      try {
+        this.name = await PostResourceService.getPosts(this.searchQuery);
+      } catch (error) {
+        console.log(error);
+      }
     },
-    openPost(id) {
-      this.$router.push(`/details/${id}`);
+    getPostDetailsRouteLink(id) {
+      return { name: ROUTE_NAME.DETAILS, params: { id: id } };
     },
     onPageChange(page) {
-      console.log(page);
       this.currentPage = page;
       this.getData();
     }
   },
   mounted() {
-    this.getData("http://localhost:3000/posts");
-    console.log(process.env);
+    this.getData();
   }
 };
 </script>
