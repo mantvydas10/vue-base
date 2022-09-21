@@ -63,13 +63,11 @@ export default {
           updated_at: 0
         })
         .then(response => {
-          console.log(response);
           this.$parent.toggleModal();
           this.$emit("data-reload");
           this.notyToast("Successfully added the P0ST!", "success");
         })
         .catch(error => {
-          console.log(error);
           this.notyToast("Something went wrong!", "error");
         });
     }

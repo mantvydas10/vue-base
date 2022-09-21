@@ -41,7 +41,7 @@
 <script>
 import axios from "axios";
 import notyToast from "../mixins/notyToast.js";
-import news from "../views/news.vue";
+
 import deleteModal from "../components/deleteModal.vue";
 import moment from "moment";
 import editModal from "../components/editModal.vue";

@@ -34,11 +34,7 @@
     </transition>
 
     <transition name="bounce">
-      <editModal
-        v-if="editModalStatus"
-        :item="selectedEdit"
-        :key="modalKey"
-      ></editModal>
+      <editModal v-if="editModalStatus" :item="selectedEdit"></editModal>
     </transition>
 
     <transition name="bounce">
@@ -65,7 +61,7 @@ import modal from "@/components/modal.vue";
 import deleteModal from "@/components/deleteModal.vue";
 import moment from "moment";
 import paginations from "@/components/paginations.vue";
-import parseLinkHeader from "parse-link-header";
+
 import editModal from "@/components/editModal.vue";
 export default {
   name: "news",
@@ -86,13 +82,11 @@ export default {
       editModalStatus: false,
       searchQuery: "",
       selectedPost: null,
-      selectedEdit: null,
-      modalKey: true
+      selectedEdit: null
     };
   },
   methods: {
     toggleEditModal(item) {
-      this.modalKey = !this.modalKey;
       this.selectedEdit = item;
       this.editModalStatus = !this.editModalStatus;
     },
@@ -124,7 +118,6 @@ export default {
         })
         .then(response => {
           this.name = response.data;
-          // this.totalPages = Math.floor(response.headers["x-total-count"] / 5);
         })
         .catch(error => console.log(error));
     },
@@ -156,6 +149,7 @@ export default {
   },
   mounted() {
     this.getData("http://localhost:3000/posts");
+    console.log(process.env);
   }
 };
 </script>
