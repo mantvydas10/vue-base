@@ -10,7 +10,9 @@
       </section>
       <footer class="modal-card-foot">
         <div>
-          <button @click="deletePost()">Yes, I'm sure!</button>
+          <button @click="deletePost()">
+            Yes, I'm sure!
+          </button>
         </div>
         <div>
           <button @click="$parent.toggleDeleteModal()">Close Modal</button>
@@ -22,7 +24,6 @@
 
 <script>
 import axios from "axios";
-
 import notyToast from "../mixins/notyToast";
 
 export default {
@@ -39,7 +40,8 @@ export default {
         .then(_ => {
           this.$parent.toggleDeleteModal();
           this.notyToast("Successfully deleted the Post!", "success");
-          this.$router.push({ name: "news" });
+          this.$emit("news-delete-refresh");
+          this.$emit("delete-refresh");
         })
 
         .catch(error => {

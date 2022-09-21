@@ -1,9 +1,5 @@
 <template>
   <div>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
-    />
     <div>
       <label for="search-bar" class="search-bar">Search:</label>
       <input
@@ -30,7 +26,11 @@
       </table>
     </div>
     <transition name="bounce">
-      <deleteModal :id="selectedPost" v-if="modalDeleteStatus"></deleteModal>
+      <deleteModal
+        @news-delete-refresh="refresh()"
+        :id="selectedPost"
+        v-if="modalDeleteStatus"
+      ></deleteModal>
     </transition>
 
     <transition name="bounce">
@@ -84,11 +84,10 @@ export default {
       modalStatus: false,
       modalDeleteStatus: false,
       editModalStatus: false,
-      searchQuery: "",     
+      searchQuery: "",
       selectedPost: null,
       selectedEdit: null,
       modalKey: true
-     
     };
   },
   methods: {
@@ -96,6 +95,9 @@ export default {
       this.modalKey = !this.modalKey;
       this.selectedEdit = item;
       this.editModalStatus = !this.editModalStatus;
+    },
+    refresh() {
+      this.$router.go();
     },
     toggleDeleteModal() {
       this.modalDeleteStatus = !this.modalDeleteStatus;
@@ -127,7 +129,6 @@ export default {
         .catch(error => console.log(error));
     },
 
-    
     getDataBySearch() {
       axios
         .get(

@@ -63,7 +63,7 @@ export default {
         .then(response => {
           console.log(response);
           this.$parent.toggleEditModal();
-          this.$parent.getData();
+          this.$router.go();
           this.notyToast("Successfully edited the P0ST!", "success");
         })
         .catch(error => {

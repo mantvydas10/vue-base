@@ -27,6 +27,7 @@
           </transition>
           <transition name="bounce">
             <deleteModal
+              @delete-refresh="getData()"
               :id="selectedPost"
               v-show="modalDeleteStatus"
             ></deleteModal>
@@ -72,6 +73,9 @@ export default {
     },
     toggleEditModal() {
       this.editModalStatus = !this.editModalStatus;
+    },
+    getData() {
+      this.$router.push({ name: "news" });
     }
   },
   created() {
