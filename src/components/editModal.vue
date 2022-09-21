@@ -17,7 +17,7 @@
         <textarea v-model="postData.body" class="dot" rows="10" cols="24" />
       </section>
       <footer class="modal-card-foot">
-        <button class="button is-success">
+        <button @click="checkPost()" class="button is-success">
           Save
         </button>
         <button @click="$parent.toggleEditModal()" class="button">
@@ -59,19 +59,24 @@ export default {
   methods: {
     editPost() {
       axios
-        .put("http://localhost:3000/posts" + "/news/" + this.id, {
-          id: this.postData.id,
-          title: this.postData.title,
-          body: this.postData.body,
-          updated_at: this.formatDate(date),
-          created_at: this.created_at,
-          author: this.postData.author
+        .put("http://localhost:3000/posts/" + this.postData.id, this.postData)
+        .then(response => {
+          console.log(response);
+          
         })
-        .then(r => {});
+        .catch(error => {
+          console.log(error.response);
+        });
     },
 
-    checkPost(){
-      
+    checkPost() {
+      if (this.postData.title && this.postData.body) {
+        this.editPost();
+      } else if (!this.postData.title) {
+        this.notyToast("Title required!", "warning");
+      } else if (!this.postData.body) {
+        this.notyToast("Content is required!", "warning");
+      }
     },
     formatDate(date) {
       return moment(date).format("MMMM Do YYYY, h:mm:ss a");
