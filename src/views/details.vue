@@ -18,11 +18,16 @@
           <button @click="toggleEditModal()">Edit Post</button>
           <button @click="deleteArticle(posts.id)">Delete Post</button>
           <transition name="bounce">
-            <editModal v-if="editModalStatus" :item="posts"></editModal>
+            <editModal
+              v-if="editModalStatus"
+              :item="posts"
+              @toggleEditModal="toggleEditModal()"
+            ></editModal>
           </transition>
           <transition name="bounce">
             <deleteModal
-              @delete-refresh="getData()"
+              @data-reload="getData()"
+              @toggleDeleteModal="toggleDeleteModal()"
               :id="selectedPost"
               v-show="modalDeleteStatus"
             ></deleteModal>
@@ -50,8 +55,7 @@ export default {
       posts: {},
       modalDeleteStatus: false,
       selectedPost: null,
-      editModalStatus: false,
-      disabled: false
+      editModalStatus: false
     };
   },
   methods: {
@@ -76,7 +80,7 @@ export default {
     try {
       this.posts = await PostResourceService.getPost(this.$route.params.id);
     } catch (error) {
-      console.log(error);
+      
     }
   }
 };
@@ -85,6 +89,12 @@ export default {
 <style>
 .top {
   font-size: x-large;
+  border-top: 2px double black;
+  border-bottom: 2px double black;
+  border-radius: 7px;
+  width: 120px;
+  margin: auto;
+  margin-top: 20px;
 }
 
 .bot {

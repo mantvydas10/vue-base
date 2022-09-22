@@ -5,7 +5,7 @@
       <header class="modal-card-head">
         <p class="modal-card-title">Edit Post:</p>
         <button
-          @click="$parent.toggleEditModal()"
+          @click="$emit('toggleEditModal')"
           class="delete"
           aria-label="close"
         ></button>
@@ -20,8 +20,8 @@
         <button @click="checkPost()" class="button is-success">
           Save
         </button>
-        <button @click="$parent.toggleEditModal()" class="button">
-          Close Modal
+        <button @click="$emit('toggleEditModal')" class="button">
+          Cancel
         </button>
       </footer>
     </div>
@@ -62,13 +62,11 @@ export default {
         .put("http://localhost:3000/posts/" + this.postData.id, this.postData)
         .then(response => {
           console.log(response);
-          this.$parent.toggleEditModal();
+          this.$emit("toggleEditModal");
           this.$router.go();
           this.notyToast("Successfully edited the P0ST!", "success");
         })
-        .catch(error => {
-          console.log(error.response);
-        });
+        .catch(error => {});
     },
 
     checkPost() {

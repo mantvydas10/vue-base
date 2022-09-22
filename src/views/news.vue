@@ -66,31 +66,37 @@
 
     <transition name="bounce">
       <deleteModal
-        @news-delete-refresh="refresh()"
+        @data-reload="getData()"
+        @toggleDeleteModal="toggleDeleteModal()"
         :id="selectedPost"
         v-if="modalDeleteStatus"
       ></deleteModal>
     </transition>
 
     <transition name="bounce">
-      <editModal v-if="editModalStatus" :item="selectedEdit"></editModal>
+      <editModal
+        v-if="editModalStatus"
+        :item="selectedEdit"
+        @toggleEditModal="toggleEditModal()"
+      ></editModal>
     </transition>
 
     <transition name="bounce">
       <PostModal
         v-show="PostModalStatus"
         @data-reload="getData()"
+        @togglePostModal="togglePostModal()"
         ref="modal"
       ></PostModal>
     </transition>
 
-    <paginations
+    <pagination
       class="pagi"
       :totalPages="10"
       :perPage="5"
       :currentPage="currentPage"
       @pagechanged="onPageChange"
-    ></paginations>
+    ></pagination>
 
     <button class="button-55" @click="openRemove()">
       Create a Post
@@ -104,13 +110,13 @@ import { ROUTE_NAME } from "@/router/index.js";
 import PostModal from "@/components/PostModal.vue";
 import deleteModal from "@/components/deleteModal.vue";
 import moment from "moment";
-import paginations from "@/components/paginations.vue";
+import pagination from "@/components/pagination.vue";
 import editModal from "@/components/editModal.vue";
 export default {
   name: "news",
   components: {
     PostModal,
-    paginations,
+    pagination,
     deleteModal,
     editModal
   },
@@ -160,17 +166,13 @@ export default {
           this.searchQuery,
           this.currentPage
         );
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     },
 
     async getDataBySearch() {
       try {
         this.name = await PostResourceService.getPosts(this.searchQuery);
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     },
     getPostDetailsRouteLink(id) {
       return { name: ROUTE_NAME.DETAILS, params: { id: id } };

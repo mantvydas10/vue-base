@@ -15,7 +15,7 @@
           </button>
         </div>
         <div>
-          <button @click="$parent.toggleDeleteModal()">Close Modal</button>
+          <button @click="$emit('toggleDeleteModal')">No!</button>
         </div>
       </footer>
     </div>
@@ -38,14 +38,12 @@ export default {
       axios
         .delete("http://localhost:3000/posts/" + this.id)
         .then(_ => {
-          this.$parent.toggleDeleteModal();
+          this.$emit("toggleDeleteModal");
           this.notyToast("Successfully deleted the Post!", "success");
-          this.$emit("news-delete-refresh");
-          this.$emit("delete-refresh");
+          this.$emit("data-reload");
         })
 
         .catch(error => {
-          console.log(error);
           this.notyToast("Something went wrong!", "error");
         });
     }
