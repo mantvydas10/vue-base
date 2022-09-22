@@ -37,7 +37,7 @@ import notyToast from "../mixins/notyToast.js";
 export default {
   mixins: [notyToast],
   methods: {
-    removeL() {
+    removeStrings() {
       this.title = "";
       this.author = "";
       this.body = "";
@@ -76,8 +76,7 @@ export default {
     return {
       title: "",
       author: "",
-      body: "",
-      error: ""
+      body: ""
     };
   }
 };

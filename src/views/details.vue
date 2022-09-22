@@ -19,7 +19,7 @@
           <button @click="deleteArticle(posts.id)">Delete Post</button>
           <transition name="bounce">
             <editModal
-              v-if="editModalStatus"
+              v-if="EditModalStatus"
               :item="posts"
               @toggleEditModal="toggleEditModal()"
             ></editModal>
@@ -29,7 +29,7 @@
               @data-reload="getData()"
               @toggleDeleteModal="toggleDeleteModal()"
               :id="selectedPost"
-              v-show="modalDeleteStatus"
+              v-show="DeleteModalStatus"
             ></deleteModal>
           </transition>
         </section>
@@ -53,9 +53,9 @@ export default {
     return {
       searchQuery: "",
       posts: {},
-      modalDeleteStatus: false,
+      DeleteModalStatus: false,
       selectedPost: null,
-      editModalStatus: false
+      EditModalStatus: false
     };
   },
   methods: {
@@ -64,13 +64,13 @@ export default {
     },
     deleteArticle(id) {
       this.selectedPost = id;
-      this.modalDeleteStatus = true;
+      this.DeleteModalStatus = true;
     },
     toggleDeleteModal() {
-      this.modalDeleteStatus = !this.modalDeleteStatus;
+      this.DeleteModalStatus = !this.DeleteModalStatus;
     },
     toggleEditModal() {
-      this.editModalStatus = !this.editModalStatus;
+      this.EditModalStatus = !this.EditModalStatus;
     },
     getData() {
       this.$router.push({ name: "news" });
@@ -79,9 +79,7 @@ export default {
   async created() {
     try {
       this.posts = await PostResourceService.getPost(this.$route.params.id);
-    } catch (error) {
-      
-    }
+    } catch (error) {}
   }
 };
 </script>
@@ -89,12 +87,9 @@ export default {
 <style>
 .top {
   font-size: x-large;
-  border-top: 2px double black;
-  border-bottom: 2px double black;
-  border-radius: 7px;
   width: 120px;
   margin: auto;
-  margin-top: 20px;
+  margin-top: 30px;
 }
 
 .bot {

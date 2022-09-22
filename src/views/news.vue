@@ -11,7 +11,7 @@
         Find
       </button>
     </div>
-    <h1>POSTS</h1>
+    <h1 class="title is-3">POSTS</h1>
 
     <div class="card" v-for="item in name" :key="item.id">
       <div class="card-content">
@@ -69,13 +69,13 @@
         @data-reload="getData()"
         @toggleDeleteModal="toggleDeleteModal()"
         :id="selectedPost"
-        v-if="modalDeleteStatus"
+        v-if="DeleteModalStatus"
       ></deleteModal>
     </transition>
 
     <transition name="bounce">
       <editModal
-        v-if="editModalStatus"
+        v-if="EditModalStatus"
         :item="selectedEdit"
         @toggleEditModal="toggleEditModal()"
       ></editModal>
@@ -127,8 +127,8 @@ export default {
       totalPages: 0,
       name: [],
       PostModalStatus: false,
-      modalDeleteStatus: false,
-      editModalStatus: false,
+      DeleteModalStatus: false,
+      EditModalStatus: false,
       searchQuery: "",
       selectedPost: null,
       selectedEdit: null
@@ -137,21 +137,21 @@ export default {
   methods: {
     toggleEditModal(item) {
       this.selectedEdit = item;
-      this.editModalStatus = !this.editModalStatus;
+      this.EditModalStatus = !this.EditModalStatus;
     },
     refresh() {
       this.$router.go();
     },
     toggleDeleteModal() {
-      this.modalDeleteStatus = !this.modalDeleteStatus;
+      this.DeleteModalStatus = !this.DeleteModalStatus;
     },
     deleteArticle(id) {
       this.selectedPost = id;
-      this.modalDeleteStatus = true;
+      this.DeleteModalStatus = true;
     },
     openRemove() {
       this.PostModalStatus = true;
-      this.$refs.modal.removeL();
+      this.$refs.modal.removeStrings();
     },
     togglePostModal() {
       this.PostModalStatus = !this.PostModalStatus;
@@ -199,6 +199,10 @@ export default {
   margin-bottom: 20px;
   border-radius: 34px;
   border: 1px solid black;
+  transform: scale(1);
+}
+.card:hover {
+  transform: scale(1.03);
 }
 .pagi {
   margin-top: 20px;
