@@ -31,8 +31,8 @@
 </template>
 
 <script>
-import axios from "axios";
 import notyToast from "../mixins/notyToast.js";
+import PostResourceService from "../services/post/PostResourceService.js";
 
 export default {
   mixins: [notyToast],
@@ -43,6 +43,13 @@ export default {
       this.body = "";
     },
     checkPost() {
+      const letters = /^[A-Za-z]+$/;
+      if (!this.author.match(letters)) {
+        this.notyToast("Only letters!", "error");
+
+        return;
+      }
+
       if (
         this.title.length > 0 &&
         this.author.length > 0 &&
@@ -53,23 +60,22 @@ export default {
         this.notyToast("You must complete all fields!", "error");
       }
     },
-    submitPost() {
-      axios
-        .post("http://localhost:3000/posts", {
+    async submitPost() {
+      try {
+        const response = await PostResourceService.createPost({
           title: this.title,
           author: this.author,
           body: this.body,
           created_at: new Date().getTime(),
           updated_at: 0
-        })
-        .then(response => {
-          this.$emit("togglePostModal");
-          this.$emit("data-reload");
-          this.notyToast("Successfully added the P0ST!", "success");
-        })
-        .catch(error => {
-          this.notyToast("Something went wrong!", "error");
         });
+
+        this.$emit("togglePostModal");
+        this.$emit("data-reload");
+        this.notyToast("Successfully added the P0ST!", "success");
+      } catch (error) {
+        this.notyToast("Something went wrong!", "error");
+      }
     }
   },
   data() {

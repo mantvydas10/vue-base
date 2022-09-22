@@ -14,7 +14,18 @@
           <h1 class="top">Content:</h1>
           <span class="bot">{{ posts.body }}</span>
 
-          <p v-text="formatDate(posts.created_at)"></p>
+          <div>
+            <p
+              clas="font"
+              v-if="!posts.updated_at"
+              v-text="formatDate(posts.created_at)"
+            ></p>
+            <p
+              v-if="posts.updated_at"
+              v-text="formatDate(posts.updated_at)"
+            ></p>
+          </div>
+
           <button @click="toggleEditModal()">Edit Post</button>
           <button @click="deleteArticle(posts.id)">Delete Post</button>
           <transition name="bounce">
@@ -39,15 +50,14 @@
 </template>
 
 <script>
-import notyToast from "../mixins/notyToast.js";
+import dates from "../mixins/dates.js";
 import PostResourceService from "@/services/post/PostResourceService.js";
 import deleteModal from "../components/deleteModal.vue";
-import moment from "moment";
 import editModal from "../components/editModal.vue";
 
 export default {
   name: "detail",
-  mixins: [notyToast],
+  mixins: [dates],
   components: { editModal, deleteModal },
   data() {
     return {
@@ -59,9 +69,6 @@ export default {
     };
   },
   methods: {
-    formatDate(date) {
-      return moment(date).format("MMMM Do YYYY, h:mm:ss a");
-    },
     deleteArticle(id) {
       this.selectedPost = id;
       this.DeleteModalStatus = true;

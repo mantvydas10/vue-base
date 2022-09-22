@@ -23,8 +23,8 @@
 </template>
 
 <script>
-import axios from "axios";
 import notyToast from "../mixins/notyToast";
+import PostResourceService from "../services/post/PostResourceService.js";
 
 export default {
   mixins: [notyToast],
@@ -34,18 +34,17 @@ export default {
   },
 
   methods: {
-    deletePost() {
-      axios
-        .delete("http://localhost:3000/posts/" + this.id)
-        .then(_ => {
-          this.$emit("toggleDeleteModal");
-          this.notyToast("Successfully deleted the Post!", "success");
-          this.$emit("data-reload");
-        })
+    async deletePost() {
+      try {
+        const response = await PostResourceService.deletePost(this.id);
 
-        .catch(error => {
-          this.notyToast("Something went wrong!", "error");
-        });
+        this.$emit("toggleDeleteModal");
+        this.notyToast("Successfully deleted the Post!", "success");
+        this.$emit("data-reload");
+      } catch (error) {
+        console.log(error);
+        this.notyToast("Something went wrong!", "error");
+      }
     }
   }
 };

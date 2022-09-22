@@ -32,8 +32,15 @@
           <div class="field">
             <label class="label">Date</label>
             <div>
-              <p clas="font" v-text="formatDate(item.created_at)"></p>
-              <p v-text="item.updated_at"></p>
+              <p
+                clas="font"
+                v-if="!item.updated_at"
+                v-text="formatDate(item.created_at)"
+              ></p>
+              <p
+                v-if="item.updated_at"
+                v-text="formatDate(item.updated_at)"
+              ></p>
             </div>
           </div>
 
@@ -106,14 +113,15 @@
 
 <script>
 import PostResourceService from "@/services/post/PostResourceService.js";
+import dates from "../mixins/dates.js";
 import { ROUTE_NAME } from "@/router/index.js";
 import PostModal from "@/components/PostModal.vue";
 import deleteModal from "@/components/deleteModal.vue";
-import moment from "moment";
 import pagination from "@/components/pagination.vue";
 import editModal from "@/components/editModal.vue";
 export default {
   name: "news",
+  mixins: [dates],
   components: {
     PostModal,
     pagination,
@@ -155,9 +163,6 @@ export default {
     },
     togglePostModal() {
       this.PostModalStatus = !this.PostModalStatus;
-    },
-    formatDate(date) {
-      return moment(date).format("MMMM Do YYYY, h:mm:ss a");
     },
 
     async getData() {
@@ -277,5 +282,8 @@ export default {
 
 .button-55:focus {
   box-shadow: rgba(0, 0, 0, 0.3) 2px 8px 4px -6px;
+}
+.title.is-3 {
+  margin-top: 20px;
 }
 </style>

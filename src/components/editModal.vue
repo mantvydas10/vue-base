@@ -17,7 +17,7 @@
         <textarea v-model="postData.body" class="dot" rows="10" cols="24" />
       </section>
       <footer class="modal-card-foot">
-        <button @click="checkPost()" class="button is-success">
+        <button @click="editPost()" class="button is-success">
           Save
         </button>
         <button @click="$emit('toggleEditModal')" class="button">
@@ -29,21 +29,17 @@
 </template>
 
 <script>
-import notyToast from "../mixins/notyToast.js";
-import axios from "axios";
-import moment from "moment";
+import dates from "../mixins/dates.js";
+import PostResourceService from "../services/post/PostResourceService.js";
 
 export default {
-  mixins: [notyToast],
+  mixins: [dates],
   name: "editModal",
   props: {
     item: Object
   },
   mounted() {
-    this.postData.title = this.item.title;
-    this.postData.body = this.item.body;
-    this.postData.id = this.item.id;
-    this.postData.author = this.item.author;
+    this.postData = this.item;
   },
   data() {
     return {
@@ -51,35 +47,42 @@ export default {
         title: "",
         body: "",
         id: "",
-        author: ""
+        author: "",
+        updated_at: 0
       }
     };
   },
 
   methods: {
-    editPost() {
-      axios
-        .put("http://localhost:3000/posts/" + this.postData.id, this.postData)
-        .then(response => {
-          console.log(response);
-          this.$emit("toggleEditModal");
-          this.$router.go();
-          this.notyToast("Successfully edited the P0ST!", "success");
-        })
-        .catch(error => {});
+    async submitEditPost() {
+      try {
+        this.postData.updated_at = new Date().getTime();
+
+        const response = await PostResourceService.editPost(
+          this.postData.id,
+          this.postData
+        );
+
+        this.$emit("toggleEditModal");
+        this.$router.go();
+        this.notyToast("Successfully edited the P0ST!", "success");
+      } catch (error) {}
     },
 
-    checkPost() {
-      if (this.postData.title && this.postData.body) {
-        this.editPost();
-      } else if (!this.postData.title) {
+    editPost() {
+      if (!this.postData.title) {
         this.notyToast("Title required!", "warning");
-      } else if (!this.postData.body) {
-        this.notyToast("Content is required!", "warning");
+
+        return;
       }
-    },
-    formatDate(date) {
-      return moment(date).format("MMMM Do YYYY, h:mm:ss a");
+
+      if (!this.postData.body) {
+        this.notyToast("Content required!", "warning");
+
+        return;
+      }
+
+      this.submitEditPost();
     }
   }
 };
