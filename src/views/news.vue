@@ -12,22 +12,58 @@
       </button>
     </div>
     <h1>POSTS</h1>
-    <div class="table1">
-      <table class="table is-bordered">
-        <div class="box" v-for="item in name" :key="item.id">
-          <p v-text="item.title"></p>
-          <p v-text="item.author"></p>
-          <p v-text="formatDate(item.created_at)"></p>
-          <p v-text="item.updated_at"></p>
-          <button @click="deleteArticle(item.id)">Delete</button>
-          <button @click="toggleEditModal(item)">Edit Post</button>
 
-          <router-link :to="getPostDetailsRouteLink(item.id)">
-            <button>Details</button>
-          </router-link>
+    <div class="card" v-for="item in name" :key="item.id">
+      <div class="card-content">
+        <div class="content">
+          <div class="field">
+            <label class="label">Title</label>
+            <div class="control">
+              <p class="font" v-text="item.title"></p>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label">Author</label>
+            <div>
+              <p class="font" v-text="item.author"></p>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Date</label>
+            <div>
+              <p clas="font" v-text="formatDate(item.created_at)"></p>
+              <p v-text="item.updated_at"></p>
+            </div>
+          </div>
+
+          <div class="field is-grouped">
+            <div class="control">
+              <router-link :to="getPostDetailsRouteLink(item.id)">
+                <button class="button is-link">Details</button>
+              </router-link>
+            </div>
+            <div class="control">
+              <button
+                @click="toggleEditModal(item)"
+                class="button is-link is-light"
+              >
+                Edit Post
+              </button>
+            </div>
+            <div class="control">
+              <button
+                @click="deleteArticle(item.id)"
+                class="button is-link is-light"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
         </div>
-      </table>
+      </div>
     </div>
+
     <transition name="bounce">
       <deleteModal
         @news-delete-refresh="refresh()"
@@ -41,7 +77,11 @@
     </transition>
 
     <transition name="bounce">
-      <modal v-show="modalStatus" @data-reload="getData()" ref="modal"></modal>
+      <PostModal
+        v-show="PostModalStatus"
+        @data-reload="getData()"
+        ref="modal"
+      ></PostModal>
     </transition>
 
     <paginations
@@ -61,7 +101,7 @@
 <script>
 import PostResourceService from "@/services/post/PostResourceService.js";
 import { ROUTE_NAME } from "@/router/index.js";
-import modal from "@/components/modal.vue";
+import PostModal from "@/components/PostModal.vue";
 import deleteModal from "@/components/deleteModal.vue";
 import moment from "moment";
 import paginations from "@/components/paginations.vue";
@@ -69,7 +109,7 @@ import editModal from "@/components/editModal.vue";
 export default {
   name: "news",
   components: {
-    modal,
+    PostModal,
     paginations,
     deleteModal,
     editModal
@@ -80,7 +120,7 @@ export default {
       currentPage: 1,
       totalPages: 0,
       name: [],
-      modalStatus: false,
+      PostModalStatus: false,
       modalDeleteStatus: false,
       editModalStatus: false,
       searchQuery: "",
@@ -104,11 +144,11 @@ export default {
       this.modalDeleteStatus = true;
     },
     openRemove() {
-      this.modalStatus = true;
+      this.PostModalStatus = true;
       this.$refs.modal.removeL();
     },
-    toggleModal() {
-      this.modalStatus = !this.modalStatus;
+    togglePostModal() {
+      this.PostModalStatus = !this.PostModalStatus;
     },
     formatDate(date) {
       return moment(date).format("MMMM Do YYYY, h:mm:ss a");
@@ -147,6 +187,17 @@ export default {
 </script>
 
 <style scoped>
+.font {
+  font-size: x-large;
+}
+.card {
+  width: fit-content;
+  display: flex;
+  margin: auto;
+  margin-bottom: 20px;
+  border-radius: 34px;
+  border: 1px solid black;
+}
 .pagi {
   margin-top: 20px;
   justify-content: center;
@@ -180,14 +231,6 @@ export default {
   box-shadow: 5px 5px #888888;
   border: 2px solid black;
   cursor: pointer;
-}
-.table {
-  background: border-box;
-}
-.table1 {
-  display: flex;
-  justify-content: center;
-  background: border-box;
 }
 
 .button-55 {

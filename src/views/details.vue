@@ -8,17 +8,12 @@
         </header>
         <section class="">
           <h1 class="top">Title:</h1>
-          <span>{{ posts.title }}</span>
+          <span class="bot">{{ posts.title }}</span>
           <h1 class="top">Author:</h1>
-          <input :value="posts.author" :disabled="true" />
+          <span class="bot">{{ posts.author }}</span>
           <h1 class="top">Content:</h1>
-          <textarea
-            :disabled="true"
-            :value="posts.body"
-            class="dot"
-            rows="20"
-            cols="50"
-          />
+          <span class="bot">{{ posts.body }}</span>
+
           <p v-text="formatDate(posts.created_at)"></p>
           <button @click="toggleEditModal()">Edit Post</button>
           <button @click="deleteArticle(posts.id)">Delete Post</button>
@@ -88,6 +83,13 @@ export default {
 </script>
 
 <style>
+.top {
+  font-size: x-large;
+}
+
+.bot {
+  font-size: xx-large;
+}
 .bounce-enter-active {
   animation: bounce-in 0.5s;
 }

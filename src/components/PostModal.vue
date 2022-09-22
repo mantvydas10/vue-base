@@ -7,7 +7,7 @@
         <button
           class="delete"
           aria-label="close"
-          @click="$parent.toggleModal()"
+          @click="$parent.togglePostModal()"
         ></button>
       </header>
       <section class="modal-card-body">
@@ -22,7 +22,7 @@
         <button @click="checkPost()" class="button is-success">
           ℂ𝕣𝕖𝕒𝕥𝕖
         </button>
-        <button class="button" @click="$parent.toggleModal()">
+        <button class="button" @click="$parent.togglePostModal()">
           Cancel
         </button>
       </footer>
@@ -63,7 +63,7 @@ export default {
           updated_at: 0
         })
         .then(response => {
-          this.$parent.toggleModal();
+          this.$parent.togglePostModal();
           this.$emit("data-reload");
           this.notyToast("Successfully added the P0ST!", "success");
         })
