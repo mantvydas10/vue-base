@@ -37,7 +37,7 @@
           </transition>
           <transition name="bounce">
             <deleteModal
-              @data-reload="getData()"
+              @data-reload="retrievePage()"
               @toggleDeleteModal="toggleDeleteModal()"
               :id="selectedPost"
               v-show="DeleteModalStatus"
@@ -79,10 +79,11 @@ export default {
     toggleEditModal() {
       this.EditModalStatus = !this.EditModalStatus;
     },
-    getData() {
+    retrievePage() {
       this.$router.push({ name: "news" });
     }
   },
+
   async created() {
     try {
       this.posts = await PostResourceService.getPost(this.$route.params.id);

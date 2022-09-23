@@ -83,7 +83,7 @@
     <transition name="bounce">
       <editModal
         v-if="EditModalStatus"
-        :item="selectedEdit"
+        :item="selectedEditModal"
         @toggleEditModal="toggleEditModal()"
       ></editModal>
     </transition>
@@ -97,7 +97,7 @@
       ></PostModal>
     </transition>
 
-    <pagination
+    <pagination v-show = false
       class="pagi"
       :totalPages="10"
       :perPage="5"
@@ -139,12 +139,13 @@ export default {
       EditModalStatus: false,
       searchQuery: "",
       selectedPost: null,
-      selectedEdit: null
+      selectedEditModal: null,
+      pagination: false
     };
   },
   methods: {
     toggleEditModal(item) {
-      this.selectedEdit = item;
+      this.selectedEditModal = item;
       this.EditModalStatus = !this.EditModalStatus;
     },
     refresh() {

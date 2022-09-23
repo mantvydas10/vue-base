@@ -1,16 +1,29 @@
 import Vue from "vue";
-import Router from "vue-router";
+import router from "vue-router";
 import news from "@/views/news";
 import details from "@/views/details";
 import notFoundComponent from "@/views/page404";
 
-Vue.use(Router);
+Vue.use(router);
+
+// const router = createRouter({
+//   history: createWebHistory(),
+//   routes,
+//   scrollBehavior(to, from, savedPosition) {
+//     return (
+//       savedPosition ||
+//       new Promise(resolve => {
+//         setTimeout(() => resolve({ top: 0 }), 300);
+//       })
+//     );
+//   }
+// });
 
 const ROUTE_NAME = {
   DETAILS: "details"
 };
 
-export default new Router({
+export default new router({
   routes: [
     {
       path: "/",
@@ -28,6 +41,7 @@ export default new Router({
       component: notFoundComponent
     }
   ]
+  // router
 });
 
 export { ROUTE_NAME };
