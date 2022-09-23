@@ -40,7 +40,8 @@ export default {
 
         this.$emit("toggleDeleteModal");
         this.notyToast("Successfully deleted the Post!", "success");
-        this.$emit("data-reload");
+        this.$router.push({ name: "news" });
+        // this.$emit("data-reload");
       } catch (error) {
         console.log(error);
         this.notyToast("Something went wrong!", "error");

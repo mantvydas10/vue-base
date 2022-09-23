@@ -72,8 +72,8 @@
     </div>
 
     <transition name="bounce">
+      <!-- @data-reload="getData()" -->
       <deleteModal
-        @data-reload="getData()"
         @toggleDeleteModal="toggleDeleteModal()"
         :id="selectedPost"
         v-if="DeleteModalStatus"
@@ -97,7 +97,7 @@
       ></PostModal>
     </transition>
 
-    <pagination v-show = false
+    <pagination
       class="pagi"
       :totalPages="10"
       :perPage="5"
@@ -139,8 +139,7 @@ export default {
       EditModalStatus: false,
       searchQuery: "",
       selectedPost: null,
-      selectedEditModal: null,
-      pagination: false
+      selectedEditModal: null
     };
   },
   methods: {

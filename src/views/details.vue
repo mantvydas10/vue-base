@@ -35,9 +35,9 @@
               @toggleEditModal="toggleEditModal()"
             ></editModal>
           </transition>
+          <!-- @data-reload="retrievePage()" -->
           <transition name="bounce">
             <deleteModal
-              @data-reload="retrievePage()"
               @toggleDeleteModal="toggleDeleteModal()"
               :id="selectedPost"
               v-show="DeleteModalStatus"
@@ -78,10 +78,10 @@ export default {
     },
     toggleEditModal() {
       this.EditModalStatus = !this.EditModalStatus;
-    },
-    retrievePage() {
-      this.$router.push({ name: "news" });
     }
+    // retrievePage() {
+    //   this.$router.push({ name: "news" });
+    // }
   },
 
   async created() {

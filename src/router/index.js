@@ -1,10 +1,10 @@
 import Vue from "vue";
-import router from "vue-router";
+import Router from "vue-router";
 import news from "@/views/news";
 import details from "@/views/details";
 import notFoundComponent from "@/views/page404";
 
-Vue.use(router);
+Vue.use(Router);
 
 // const router = createRouter({
 //   history: createWebHistory(),
@@ -23,7 +23,7 @@ const ROUTE_NAME = {
   DETAILS: "details"
 };
 
-export default new router({
+export default new Router({
   routes: [
     {
       path: "/",
@@ -41,7 +41,9 @@ export default new router({
       component: notFoundComponent
     }
   ]
-  // router
+  // scrollBehavior(to, from, savedPosition) {
+  //   return { x: 0, y: 0 };
+  // }
 });
 
 export { ROUTE_NAME };
