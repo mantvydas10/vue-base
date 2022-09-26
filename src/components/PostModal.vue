@@ -31,11 +31,9 @@
 </template>
 
 <script>
-
 import PostResourceService from "../services/post/PostResourceService.js";
 
 export default {
-  
   methods: {
     removeStrings() {
       this.title = "";

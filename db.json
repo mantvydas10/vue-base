@@ -13,22 +13,6 @@
   ],
   "posts": [
     {
-      "title": "asdad",
-      "author": "asdasdas",
-      "body": "123asdasdasd",
-      "created_at": 1664169741574,
-      "updated_at": 0,
-      "id": 4
-    },
-    {
-      "title": "asd",
-      "author": "asd",
-      "body": "asd",
-      "created_at": 1664169746332,
-      "updated_at": 0,
-      "id": 5
-    },
-    {
       "title": "asd",
       "author": "asd",
       "body": "asd",
@@ -43,6 +27,46 @@
       "created_at": 1664169757975,
       "updated_at": 0,
       "id": 7
+    },
+    {
+      "title": "ertert",
+      "author": "ertret",
+      "body": "ertertert",
+      "created_at": 1664207559109,
+      "updated_at": 0,
+      "id": 8
+    },
+    {
+      "title": "tertert",
+      "author": "ertert",
+      "body": "ertertert",
+      "created_at": 1664207567499,
+      "updated_at": 0,
+      "id": 9
+    },
+    {
+      "title": "tytyu",
+      "author": "tyt",
+      "body": "tyyttyyttyty",
+      "created_at": 1664207574589,
+      "updated_at": 0,
+      "id": 10
+    },
+    {
+      "title": "tyjutyj",
+      "author": "yjytjty",
+      "body": "tyjtyjtyj",
+      "created_at": 1664207613652,
+      "updated_at": 0,
+      "id": 11
+    },
+    {
+      "title": "jtyjtyj",
+      "author": "tyjtyj",
+      "body": "tyjtyjtyj",
+      "created_at": 1664207627144,
+      "updated_at": 0,
+      "id": 12
     }
   ]
 }

@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="noty">
-      <notification type="success" header="Oh yeah!">wfewfwef</notification>
-    </div>
+    <!-- <div class="noty"> -->
+    <notification type="error" header="You Create the New Post!"></notification>
+    <!-- </div> -->
     <div>
       <label for="search-bar" class="search-bar">Search:</label>
       <input
@@ -205,12 +205,12 @@ export default {
 </script>
 
 <style scoped>
-.noty {
+/* .noty {
   margin-bottom: 30px;
   display: inline-block;
   width: 25%;
   z-index: 1;
-}
+} */
 .font {
   font-size: x-large;
 }
