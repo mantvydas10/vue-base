@@ -31,11 +31,11 @@
 </template>
 
 <script>
-import notyToast from "../mixins/notyToast.js";
+
 import PostResourceService from "../services/post/PostResourceService.js";
 
 export default {
-  mixins: [notyToast],
+  
   methods: {
     removeStrings() {
       this.title = "";

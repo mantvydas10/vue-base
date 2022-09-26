@@ -23,11 +23,9 @@
 </template>
 
 <script>
-import notyToast from "../mixins/notyToast";
 import PostResourceService from "../services/post/PostResourceService.js";
 
 export default {
-  mixins: [notyToast],
   name: "deleteModal",
   props: {
     id: Number

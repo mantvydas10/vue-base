@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div class="noty">
+      <notification type="success" header="Oh yeah!">wfewfwef</notification>
+    </div>
     <div>
       <label for="search-bar" class="search-bar">Search:</label>
       <input
@@ -12,6 +15,8 @@
       </button>
     </div>
     <h1 class="title is-3">POSTS</h1>
+
+    <h1 v-if="noDataError">Can't retrieve data from server</h1>
 
     <div class="card" v-for="item in name" :key="item.id">
       <div class="card-content">
@@ -100,7 +105,7 @@
     <pagination
       class="pagi"
       :totalPages="10"
-      :perPage="5"
+      :perPage="2"
       :currentPage="currentPage"
       @pagechanged="onPageChange"
     ></pagination>
@@ -112,6 +117,7 @@
 </template>
 
 <script>
+import notification from "@/components/notification.vue";
 import PostResourceService from "@/services/post/PostResourceService.js";
 import dates from "../mixins/dates.js";
 import { ROUTE_NAME } from "@/router/index.js";
@@ -126,7 +132,8 @@ export default {
     PostModal,
     pagination,
     deleteModal,
-    editModal
+    editModal,
+    notification
   },
 
   data() {
@@ -139,7 +146,8 @@ export default {
       EditModalStatus: false,
       searchQuery: "",
       selectedPost: null,
-      selectedEditModal: null
+      selectedEditModal: null,
+      noDataError: false
     };
   },
   methods: {
@@ -171,7 +179,10 @@ export default {
           this.searchQuery,
           this.currentPage
         );
-      } catch (error) {}
+      } catch (error) {
+        console.log(error);
+        this.noDataError = true;
+      }
     },
 
     async getDataBySearch() {
@@ -194,6 +205,12 @@ export default {
 </script>
 
 <style scoped>
+.noty {
+  margin-bottom: 30px;
+  display: inline-block;
+  width: 25%;
+  z-index: 1;
+}
 .font {
   font-size: x-large;
 }

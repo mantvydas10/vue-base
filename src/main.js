@@ -3,8 +3,6 @@
 import Vue from "vue";
 import App from "./App";
 import router from "./router";
-import VueToast from "vue-toast-notification";
-import "vue-toast-notification/dist/theme-sugar.css";
 
 new Vue({
   el: "#app",
@@ -15,8 +13,4 @@ new Vue({
 
 Vue.config.productionTip = false;
 
-Vue.use(VueToast, {
-  duration: 3000,
-  dismissible: true,
-  position: "top"
-});
+Vue.use;

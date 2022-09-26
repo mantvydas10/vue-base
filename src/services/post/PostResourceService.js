@@ -4,7 +4,7 @@ export default class PostResourceService {
     return process.env.URL + "/posts";
   }
 
-  static getPosts(query, page = 1, limit = 5) {
+  static getPosts(query, page = 1, limit = 3) {
     return axios
       .get(this.baseURL, {
         params: {
