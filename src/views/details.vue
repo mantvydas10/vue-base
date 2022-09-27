@@ -1,51 +1,44 @@
 <template>
-  <div>
-    <div class="">
-      <div class=""></div>
-      <div class="">
-        <header class="">
-          <p class=""></p>
-        </header>
-        <section class="">
-          <h1 class="top">Title:</h1>
-          <span class="bot">{{ posts.title }}</span>
-          <h1 class="top">Author:</h1>
-          <span class="bot">{{ posts.author }}</span>
-          <h1 class="top">Content:</h1>
-          <span class="bot">{{ posts.body }}</span>
+  <div class="">
+    <header class="">
+      <p class=""></p>
+    </header>
+    <section class="">
+      <h1 class="top">Title:</h1>
+      <span class="bot">{{ posts.title }}</span>
+      <h1 class="top">Author:</h1>
+      <span class="bot">{{ posts.author }}</span>
+      <h1 class="top">Content:</h1>
+      <span class="bot">{{ posts.body }}</span>
 
-          <div>
-            <p
-              clas="font"
-              v-if="!posts.updated_at"
-              v-text="formatDate(posts.created_at)"
-            ></p>
-            <p
-              v-if="posts.updated_at"
-              v-text="formatDate(posts.updated_at)"
-            ></p>
-          </div>
-
-          <button @click="toggleEditModal()">Edit Post</button>
-          <button @click="deleteArticle(posts.id)">Delete Post</button>
-          <transition name="bounce">
-            <editModal
-              v-if="EditModalStatus"
-              :item="posts"
-              @toggleEditModal="toggleEditModal()"
-            ></editModal>
-          </transition>
-          <!-- @data-reload="retrievePage()" -->
-          <transition name="bounce">
-            <deleteModal
-              @toggleDeleteModal="toggleDeleteModal()"
-              :id="selectedPost"
-              v-show="DeleteModalStatus"
-            ></deleteModal>
-          </transition>
-        </section>
+      <div>
+        <p
+          clas="font"
+          v-if="!posts.updated_at"
+          v-text="formatDate(posts.created_at)"
+        ></p>
+        <p v-if="posts.updated_at" v-text="formatDate(posts.updated_at)"></p>
       </div>
-    </div>
+
+      <button @click="toggleEditModal()">Edit Post</button>
+      <button @click="deleteArticle(posts.id)">Delete Post</button>
+      <transition name="bounce">
+        <editModal
+          v-if="EditModalStatus"
+          :item="posts"
+          @toggleEditModal="toggleEditModal()"
+        ></editModal>
+      </transition>
+
+      <transition name="bounce">
+        <deleteModal
+          @data-reload="retrievePage()"
+          @toggleDeleteModal="toggleDeleteModal()"
+          :id="selectedPost"
+          v-show="DeleteModalStatus"
+        ></deleteModal>
+      </transition>
+    </section>
   </div>
 </template>
 
@@ -78,10 +71,10 @@ export default {
     },
     toggleEditModal() {
       this.EditModalStatus = !this.EditModalStatus;
+    },
+    retrievePage() {
+      this.$router.push({ name: "news" });
     }
-    // retrievePage() {
-    //   this.$router.push({ name: "news" });
-    // }
   },
 
   async created() {

@@ -19,31 +19,42 @@
         </div>
       </footer>
     </div>
+    <notification
+      v-if="notiMsg != ''"
+      :message="notiMsg"
+      :type="notiStatus"
+    ></notification>
   </div>
 </template>
 
 <script>
+import notification from "@/components/notification.vue";
 import PostResourceService from "../services/post/PostResourceService.js";
 
 export default {
+  components: { notification },
   name: "deleteModal",
   props: {
     id: Number
+  },
+
+  data() {
+    return {
+      notiMsg: "",
+      notiStatus: ""
+    };
   },
 
   methods: {
     async deletePost() {
       try {
         const response = await PostResourceService.deletePost(this.id);
-
         this.$emit("toggleDeleteModal");
-        this.notyToast("Successfully deleted the Post!", "success");
-        this.$router.push({ name: "news" });
-        // this.$emit("data-reload");
-      } catch (error) {
-        console.log(error);
-        this.notyToast("Something went wrong!", "error");
-      }
+        // this.$router.go();
+        this.$emit("data-reload");
+        this.notiStatus = "is-success";
+        this.notiMsg = "Successfully Deleted!";
+      } catch (error) {}
     }
   }
 };

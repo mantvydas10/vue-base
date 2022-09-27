@@ -1,15 +1,17 @@
 <template>
-  <div class="notification-wrapper">
-    <div class="notification ui message" :class="type">
-      <i class="close icon"></i>
-      <div class="header">
-        {{ header }}
-      </div>
-      <slot></slot>
+  <article :class="['message is-success', type]">
+    <div class="message-header">
+      <button
+        @click="$emit('closeNotificationModal')"
+        class="delete"
+        aria-label="delete"
+      ></button>
     </div>
-  </div>
+    <div class="message-body">
+      {{ message }}
+    </div>
+  </article>
 </template>
-<script src="https://unpkg.com/vue@2"></script>
 <script>
 export default {
   props: {
@@ -18,59 +20,57 @@ export default {
       default: "info"
       // <-----Success, error, warning ----->
     },
-    header: {
+    message: {
       type: String,
       default: "Information"
     }
   },
   data() {
     return {
-      show: false,
-      notification: this.header,
-      alertClass: this.type,
-      hideTimeOut: false
+      notification: this.message,
+      alertClass: this.type
+      
     };
-  },
-  created() {
-    if (this.notification) {
-      this.showNotification();
-    }
-
-    window.addEventListener("showNotification", (header, type) => {
-      this.notification = header;
-      this.alertClass = type;
-      this.showNotification();
-    });
-  },
-
-  methods: {
-    showNotification() {
-      this.show = true;
-      this.hideNotification();
-    },
-    hideNotification() {
-      this.hideTimeout = setTimeout(() => {
-        this.show = false;
-      }, 3000);
-    },
-    destroyNotification() {
-      this.show = false;
-      clearTimeout(this.hideTimeout);
-    },
-    hide() {
-      this.show = false;
-    }
   }
+
+  // created() {
+  //   if (this.notification) {
+  //     this.showNotification();
+
+  // window.addEventListener("showNotification", (header, type) => {
+  //   this.notification = header;
+  //   this.alertClass = type;
+  //   this.showNotification();
+  // });
 };
+
+// methods: {
+//   showNotification() {
+//     this.show = true;
+//     this.hideNotification();
+//   },
+//   hideNotification() {
+//     this.hideTimeout = setTimeout(() => {
+//       this.show = false;
+//     }, 3000);
+//   },
+//   destroyNotification() {
+//     this.show = false;
+//     clearTimeout(this.hideTimeout);
+//   },
+//   hide() {
+//     this.show = false;
+//   }
+// }
 </script>
 
 <style scoped>
-.notification-wrapper {
+/* .wrapper {
   margin-bottom: 30px;
   display: inline-block;
   width: 25%;
   z-index: 1;
-}
+} */
 </style>
 
 https://github.com/vueschool/vuejs-components-fundamentals/commit/c02af5df4e52b9e1ad7c9d6917515618c56d222c

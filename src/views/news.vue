@@ -1,7 +1,12 @@
 <template>
   <div>
     <!-- <div class="noty"> -->
-    <notification type="error" header="You Create the New Post!"></notification>
+
+    <!-- <notification
+      v-show="showMsg"
+      @closeNotificationModal="closeNotificationModal()"
+    ></notification> -->
+
     <!-- </div> -->
     <div>
       <label for="search-bar" class="search-bar">Search:</label>
@@ -104,7 +109,7 @@
 
     <pagination
       class="pagi"
-      :totalPages="10"
+      :totalPages="20"
       :perPage="2"
       :currentPage="currentPage"
       @pagechanged="onPageChange"

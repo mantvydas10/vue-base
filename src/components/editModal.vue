@@ -25,14 +25,22 @@
         </button>
       </footer>
     </div>
+    <notification
+      v-if="notiMsg != ''"
+      :message="notiMsg"
+      :type="notiStatus"
+      @closeNotificationModal="closeNotificationModal()"
+    ></notification>
   </div>
 </template>
 
 <script>
+import notification from "@/components/notification.vue";
 import dates from "../mixins/dates.js";
 import PostResourceService from "../services/post/PostResourceService.js";
 
 export default {
+  components: { notification },
   mixins: [dates],
   name: "editModal",
   props: {
@@ -43,6 +51,8 @@ export default {
   },
   data() {
     return {
+      notiMsg: "",
+      notiStatus: "",
       postData: {
         title: "",
         body: "",
@@ -54,6 +64,9 @@ export default {
   },
 
   methods: {
+    closeNotificationModal() {
+      this.notiMsg = !this.notiMsg;
+    },
     async submitEditPost() {
       try {
         this.postData.updated_at = new Date().getTime();
@@ -62,22 +75,26 @@ export default {
           this.postData.id,
           this.postData
         );
-
+        this.notiMsg = "Successfully Edited Post!";
+        this.notiStatus = "is-success";
         this.$emit("toggleEditModal");
         this.$router.go();
-        this.notyToast("Successfully edited the P0ST!", "success");
       } catch (error) {}
     },
 
     editPost() {
       if (!this.postData.title) {
-        this.notyToast("Title required!", "warning");
+        this.notiStatus = "is-warning";
+        this.notiMsg = "Title required!";
+        // this.notyToast("Title required!", "warning");
 
         return;
       }
 
       if (!this.postData.body) {
-        this.notyToast("Content required!", "warning");
+        this.notiStatus = "is-warning";
+        this.notiMsg = "Content required!";
+        // this.notyToast("Content required!", "warning");
 
         return;
       }

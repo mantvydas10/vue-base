@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"
@@ -20,15 +19,15 @@ export default {
 </script>
 
 <style>
+body {
+  background-color: lightblue !important;
+}
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+  text-align: center; 
   padding-top: 60px;
-  height: 2000px;
-  /* background: linear-gradient(#4ca1af, #c4e0e5); */
-  background: lightskyblue;
+   
 }
 </style>

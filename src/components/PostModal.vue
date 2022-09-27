@@ -16,7 +16,7 @@
         <h1 class="top"><span class="oneL">A</span>uthor:</h1>
         <input v-model="author" />
         <h1 class="top"><span class="oneL">C</span>ontent:</h1>
-        <textarea class="dot" v-model="body" rows="10" cols="24" />
+        <textarea v-model="body" rows="10" cols="24" />
       </section>
       <footer class="modal-card-foot">
         <button @click="checkPost()" class="button is-success">
@@ -27,23 +27,45 @@
         </button>
       </footer>
     </div>
+    <notification
+      v-if="notiMsg != ''"
+      :message="notiMsg"
+      :type="notiStatus"
+      @closeNotificationModal="closeNotificationModal()"
+    ></notification>
   </div>
 </template>
 
 <script>
+import notification from "@/components/notification.vue";
 import PostResourceService from "../services/post/PostResourceService.js";
 
 export default {
+  components: { notification },
+  data() {
+    return {
+      title: "",
+      author: "",
+      body: "",
+      notiMsg: "",
+      notiStatus: ""
+    };
+  },
   methods: {
+    closeNotificationModal() {
+      this.notiMsg = !this.notiMsg;
+    },
     removeStrings() {
       this.title = "";
       this.author = "";
       this.body = "";
+      this.notiMsg = false;
     },
     checkPost() {
       const letters = /^[A-Za-z]+$/;
       if (!this.author.match(letters)) {
-        this.notyToast("Only letters!", "error");
+        this.notiStatus = "is-danger";
+        this.notiMsg = "Author's input must contain only letters!";
 
         return;
       }
@@ -55,7 +77,8 @@ export default {
       ) {
         this.submitPost();
       } else {
-        this.notyToast("You must complete all fields!", "error");
+        this.notiStatus = "is-danger";
+        this.notiMsg = "You must complete all fields!";
       }
     },
     async submitPost() {
@@ -70,25 +93,23 @@ export default {
 
         this.$emit("togglePostModal");
         this.$emit("data-reload");
-        this.notyToast("Successfully added the P0ST!", "success");
+        this.notiStatus = "is-success";
+        this.notiMsg = "Successfully!";
+        
       } catch (error) {
-        this.notyToast("Something went wrong!", "error");
+        this.notiStatus = "is-danger";
+        this.notiMsg = "Something is wrong!";
+        
       }
     }
-  },
-  data() {
-    return {
-      title: "",
-      author: "",
-      body: ""
-    };
   }
 };
 </script>
 
 <style scoped>
 .modal-card-head {
-  background: linear-gradient(45deg, #134e5e, #71b280);
+  background: lightblue;
+  /* background: linear-gradient(45deg, #134e5e, #71b280); */
 }
 
 .modal-card-title {
@@ -115,8 +136,5 @@ export default {
 .oneL {
   color: black;
   font-size: 19px;
-}
-.dot {
-  border-style: dotted;
 }
 </style>
