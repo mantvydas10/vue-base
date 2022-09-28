@@ -109,8 +109,7 @@
 
     <pagination
       class="pagi"
-      :totalPages="20"
-      :perPage="2"
+      :totalCount="postsCount"
       :currentPage="currentPage"
       @pagechanged="onPageChange"
     ></pagination>
@@ -143,6 +142,7 @@ export default {
 
   data() {
     return {
+      perPage: 5,
       currentPage: 1,
       totalPages: 0,
       name: [],
@@ -152,17 +152,38 @@ export default {
       searchQuery: "",
       selectedPost: null,
       selectedEditModal: null,
-      noDataError: false
+      noDataError: false,
+      postsCount: 0
     };
   },
+  computed: {
+    currentPagePosts() {
+      return this.name.slice(
+        (this.currentPage - 1) * this.perPage,
+        this.currentPage * this.perPage
+      );
+    }
+  },
   methods: {
+    onPageChange(page) {
+      this.currentPage = page;
+      // this.getData();
+    },
+    setCurrentPage(direction) {
+      if (direction === -1 && this.currentPage > 1) {
+        this.currentPage -= 1;
+      } else if (
+        direction === 1 &&
+        this.currentPage < this.name.length / this.perPage
+      ) {
+        this.currentPage += 1;
+      }
+    },
     toggleEditModal(item) {
       this.selectedEditModal = item;
       this.EditModalStatus = !this.EditModalStatus;
     },
-    refresh() {
-      this.$router.go();
-    },
+
     toggleDeleteModal() {
       this.DeleteModalStatus = !this.DeleteModalStatus;
     },
@@ -179,8 +200,9 @@ export default {
     },
 
     async getData() {
+      let response = {};
       try {
-        this.name = await PostResourceService.getPosts(
+        response = await PostResourceService.getPosts(
           this.searchQuery,
           this.currentPage
         );
@@ -188,6 +210,9 @@ export default {
         console.log(error);
         this.noDataError = true;
       }
+      this.name = response.data;
+      this.postsCount = parseInt(response.headers["x-total-count"]);
+      console.log(this.postsCount);
     },
 
     async getDataBySearch() {
@@ -197,13 +222,9 @@ export default {
     },
     getPostDetailsRouteLink(id) {
       return { name: ROUTE_NAME.DETAILS, params: { id: id } };
-    },
-    onPageChange(page) {
-      this.currentPage = page;
-      this.getData();
     }
   },
-  mounted() {
+  created() {
     this.getData();
   }
 };

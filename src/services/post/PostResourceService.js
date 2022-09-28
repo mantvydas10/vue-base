@@ -1,20 +1,18 @@
 import axios from "axios";
 export default class PostResourceService {
   static get baseURL() {
-    return process.env.URL + "/posts";
+    return process.env.URL + "/posts?_limit=5";
   }
 
-  static getPosts(query, page = 1, limit = 3) {
+  static getPosts(query) {
     return axios
       .get(this.baseURL, {
         params: {
-          q: query,
-          _limit: limit,
-          _page: page
+          q: query
         }
       })
       .then(response => {
-        return response.data;
+        return response;
       });
   }
 
