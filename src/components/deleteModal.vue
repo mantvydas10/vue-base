@@ -10,12 +10,12 @@
       </section>
       <footer class="modal-card-foot">
         <div>
-          <button @click="deletePost()">
+          <button @click="deletePost(true)">
             Yes, I'm sure!
           </button>
         </div>
         <div>
-          <button @click="$emit('toggleDeleteModal')">No!</button>
+          <button @click="deletePost(false)">No!</button>
         </div>
       </footer>
     </div>
@@ -46,15 +46,8 @@ export default {
   },
 
   methods: {
-    async deletePost() {
-      try {
-        const response = await PostResourceService.deletePost(this.id);
-        this.$emit("toggleDeleteModal");
-        // this.$router.go();
-        this.$emit("data-reload");
-        this.notiStatus = "is-success";
-        this.notiMsg = "Successfully Deleted!";
-      } catch (error) {}
+    async deletePost(answer) {
+      this.$emit("deletePost", answer);
     }
   }
 };

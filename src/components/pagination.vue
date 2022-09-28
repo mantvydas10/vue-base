@@ -1,5 +1,17 @@
 <template>
-  <div>{{ totalPages }}</div>
+  <div class="pagination">
+    <a class="pagination-previous" @click="previousPage">Previous</a>
+    <a
+      class="pagination-link"
+      v-for="page in pages"
+      :key="page"
+      @click="changePage(page)"
+    >
+      {{ page }}</a
+    >
+
+    <a class="pagination-next" @click="nextPage">Next page</a>
+  </div>
 </template>
 
 <script>
@@ -23,16 +35,34 @@ export default {
     return {
       current: 1,
       postsCount: this.totalCount,
-      totalPages: 1
+      pages: 1
     };
   },
   created() {
-    console.log(this.getPageCount());
+    this.pages = this.getPageCount();
   },
   methods: {
     getPageCount() {
-      console.log(this.postsCount);
-      return this.postsCount / 5;
+      return Math.ceil(this.postsCount / 5);
+    },
+    changePage(page) {
+      this.$emit("changePage", page);
+    },
+    nextPage() {
+      let page = this.current + 1;
+      if (page > this.pages) {
+        return;
+      }
+      this.current = page;
+      this.changePage(page);
+    },
+    previousPage() {
+      let page = this.current - 1;
+      if (page < 1) {
+        return;
+      }
+      this.current = page;
+      this.changePage(page);
     }
   }
 };

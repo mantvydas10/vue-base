@@ -108,10 +108,11 @@
     </transition>
 
     <pagination
+      :key="postsCount"
       class="pagi"
       :totalCount="postsCount"
       :currentPage="currentPage"
-      @pagechanged="onPageChange"
+      @changePage="onPageChange"
     ></pagination>
 
     <button class="button-55" @click="openRemove()">
@@ -156,28 +157,10 @@ export default {
       postsCount: 0
     };
   },
-  computed: {
-    currentPagePosts() {
-      return this.name.slice(
-        (this.currentPage - 1) * this.perPage,
-        this.currentPage * this.perPage
-      );
-    }
-  },
   methods: {
     onPageChange(page) {
-      this.currentPage = page;
-      // this.getData();
-    },
-    setCurrentPage(direction) {
-      if (direction === -1 && this.currentPage > 1) {
-        this.currentPage -= 1;
-      } else if (
-        direction === 1 &&
-        this.currentPage < this.name.length / this.perPage
-      ) {
-        this.currentPage += 1;
-      }
+      this.currentPage = page ? page : 1;
+      this.getData();
     },
     toggleEditModal(item) {
       this.selectedEditModal = item;
@@ -212,7 +195,6 @@ export default {
       }
       this.name = response.data;
       this.postsCount = parseInt(response.headers["x-total-count"]);
-      console.log(this.postsCount);
     },
 
     async getDataBySearch() {
@@ -224,8 +206,8 @@ export default {
       return { name: ROUTE_NAME.DETAILS, params: { id: id } };
     }
   },
-  created() {
-    this.getData();
+  async created() {
+    await this.getData();
   }
 };
 </script>
