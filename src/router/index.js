@@ -18,8 +18,8 @@ export default new Router({
       component: news
     },
     {
-      path: "/" + ROUTE_NAME.DETAILS + "/:id",
-      name: ROUTE_NAME.DETAILS,
+      path: "/details/:id",
+      name: "details",
       component: details,
       props: true
     },

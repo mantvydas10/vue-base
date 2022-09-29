@@ -36,6 +36,7 @@
           @toggleDeleteModal="toggleDeleteModal()"
           :id="selectedPost"
           v-show="DeleteModalStatus"
+          @deletePost="handlePostDelete"
         ></deleteModal>
       </transition>
     </section>
@@ -62,6 +63,16 @@ export default {
     };
   },
   methods: {
+    handlePostDelete(answer) {
+      if (answer) {
+        PostResourceService.deletePost(this.selectedPost).then(
+          this.$router.push({ name: "news" })
+        );
+        this.notiMsg = "Successfully Deleted Post!";
+        this.notiStatus = "is-success";
+        this.selectedPost = null;
+      } else this.toggleDeleteModal();
+    },
     deleteArticle(id) {
       this.selectedPost = id;
       this.DeleteModalStatus = true;

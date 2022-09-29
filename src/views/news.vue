@@ -2,10 +2,12 @@
   <div>
     <!-- <div class="noty"> -->
 
-    <!-- <notification
-      v-show="showMsg"
+    <notification
+      v-if="notiMsg != ''"
+      :message="notiMsg"
+      :type="notiStatus"
       @closeNotificationModal="closeNotificationModal()"
-    ></notification> -->
+    ></notification>
 
     <!-- </div> -->
     <div>
@@ -87,6 +89,7 @@
         @toggleDeleteModal="toggleDeleteModal()"
         :id="selectedPost"
         v-if="DeleteModalStatus"
+        @deletePost="handlePostDelete"
       ></deleteModal>
     </transition>
 
@@ -143,6 +146,8 @@ export default {
 
   data() {
     return {
+      notiMsg: "",
+      notiStatus: "",
       perPage: 5,
       currentPage: 1,
       totalPages: 0,
@@ -157,7 +162,18 @@ export default {
       postsCount: 0
     };
   },
+
   methods: {
+    handlePostDelete(answer) {
+      if (answer) {
+        PostResourceService.deletePost(this.selectedPost).then(
+          this.$router.go()
+        );
+        this.notiMsg = "Successfully Deleted Post!";
+        this.notiStatus = "is-success";
+        this.selectedPost = null;
+      } else this.toggleDeleteModal();
+    },
     onPageChange(page) {
       this.currentPage = page ? page : 1;
       this.getData();
@@ -200,7 +216,9 @@ export default {
     async getDataBySearch() {
       try {
         this.name = await PostResourceService.getPosts(this.searchQuery);
-      } catch (error) {}
+      } catch (error) {
+        console.log(error);
+      }
     },
     getPostDetailsRouteLink(id) {
       return { name: ROUTE_NAME.DETAILS, params: { id: id } };
