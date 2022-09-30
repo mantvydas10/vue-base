@@ -109,7 +109,7 @@ export default {
 <style scoped>
 .modal-card-head {
   background: lightblue;
-  /* background: linear-gradient(45deg, #134e5e, #71b280); */
+ 
 }
 
 .modal-card-title {

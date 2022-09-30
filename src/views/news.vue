@@ -1,7 +1,5 @@
 <template>
   <div>
-    <!-- <div class="noty"> -->
-
     <notification
       v-if="notiMsg != ''"
       :message="notiMsg"
@@ -9,7 +7,6 @@
       @closeNotificationModal="closeNotificationModal()"
     ></notification>
 
-    <!-- </div> -->
     <div>
       <label for="search-bar" class="search-bar">Search:</label>
       <input
@@ -84,7 +81,7 @@
     </div>
 
     <transition name="bounce">
-      <!-- @data-reload="getData()" -->
+     
       <deleteModal
         @toggleDeleteModal="toggleDeleteModal()"
         :id="selectedPost"
@@ -231,12 +228,7 @@ export default {
 </script>
 
 <style scoped>
-/* .noty {
-  margin-bottom: 30px;
-  display: inline-block;
-  width: 25%;
-  z-index: 1;
-} */
+
 .font {
   font-size: x-large;
 }

@@ -86,7 +86,7 @@ export default {
       if (!this.postData.title) {
         this.notiStatus = "is-warning";
         this.notiMsg = "Title required!";
-        // this.notyToast("Title required!", "warning");
+        
 
         return;
       }
@@ -94,7 +94,7 @@ export default {
       if (!this.postData.body) {
         this.notiStatus = "is-warning";
         this.notiMsg = "Content required!";
-        // this.notyToast("Content required!", "warning");
+       
 
         return;
       }

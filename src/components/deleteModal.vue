@@ -29,7 +29,7 @@
 
 <script>
 import notification from "@/components/notification.vue";
-import PostResourceService from "../services/post/PostResourceService.js";
+
 
 export default {
   components: { notification },
